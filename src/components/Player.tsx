@@ -47,7 +47,6 @@ export function Player({ imdbId, mediaType, season, episode }: PlayerProps) {
         <iframe
           key={iframeKey}
           src={embedUrl}
-          sandbox="allow-scripts allow-same-origin"
           allow="fullscreen; autoplay; encrypted-media"
           allowFullScreen
           referrerPolicy="no-referrer"
