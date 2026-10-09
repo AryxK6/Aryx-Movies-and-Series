@@ -1,0 +1,33 @@
+// Prisma Schema for Aryx Movies and Series
+// PostgreSQL (Neon). Use the DIRECT connection string (no "-pooler" in the host).
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Media {
+  id           String   @id @default(cuid())
+  tmdbId       String
+  imdbId       String?  @unique
+  title        String
+  mediaType    String   // "MOVIE" or "TV"
+  posterPath   String   @default("")
+  backdropPath String   @default("")
+  overview     String   @default("")
+  releaseDate  String   @default("")
+  voteAverage  Float    @default(0)
+  genres       String   @default("[]") // JSON array stored as a string
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  // TMDB reuses the same numeric ID for a movie and a TV show, so ID alone is not unique
+  @@unique([tmdbId, mediaType])
+  @@index([mediaType])
+  @@index([releaseDate])
+  @@index([voteAverage])
+}
